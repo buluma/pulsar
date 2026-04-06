@@ -1,0 +1,7 @@
+'atom-workspace':
+  'cmd-i': 'pulsar-agent:toggle-chat'
+  'cmd-k': 'pulsar-agent:inline-assist'
+
+'atom-text-editor':
+  'cmd-i': 'pulsar-agent:toggle-chat'
+  'cmd-k': 'pulsar-agent:inline-assist'

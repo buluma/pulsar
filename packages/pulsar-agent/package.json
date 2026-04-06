@@ -1,0 +1,68 @@
+{
+  "name": "pulsar-agent",
+  "version": "0.1.0",
+  "main": "./lib/main",
+  "description": "Agentic AI capabilities for Pulsar, featuring Chat and Inline Assist.",
+  "repository": "https://github.com/pulsar-edit/pulsar",
+  "license": "MIT",
+  "engines": {
+    "atom": "*",
+    "node": ">=14"
+  },
+  "dependencies": {
+    "etch": "^0.14.0",
+    "event-kit": "^2.0.0",
+    "fs-plus": "^3.0.0",
+    "markdown-it": "^13.0.2"
+  },
+  "configSchema": {
+    "openaiApiKey": {
+      "type": "string",
+      "default": "",
+      "title": "OpenAI API Key",
+      "description": "API Key for OpenAI services."
+    },
+    "anthropicApiKey": {
+      "type": "string",
+      "default": "",
+      "title": "Anthropic API Key",
+      "description": "API Key for Anthropic services."
+    },
+    "defaultProvider": {
+      "type": "string",
+      "default": "openai",
+      "enum": [
+        "openai",
+        "anthropic",
+        "ollama"
+      ],
+      "title": "Default LLM Provider"
+    },
+    "ollamaUrl": {
+      "type": "string",
+      "default": "http://127.0.0.1:11434/api/chat",
+      "title": "Ollama API URL",
+      "description": "Full URL to your Ollama chat API (e.g., http://localhost:11434/api/chat)."
+    },
+    "ollamaModel": {
+      "type": "string",
+      "default": "gemma4:31b-cloud",
+      "title": "Ollama Model Name",
+      "description": "Name of the model to use in Ollama (e.g., llama3, codellama, mistral)."
+    },
+    "ollamaApiKey": {
+      "type": "string",
+      "default": "",
+      "title": "Ollama API Key (Optional)",
+      "description": "API Key for authenticated Ollama services (if required)."
+    }
+  },
+  "context-menu": {
+    "atom-text-editor": [
+      { "label": "Add to Chat", "command": "pulsar-agent:add-file-to-chat" }
+    ],
+    ".tree-view .file": [
+      { "label": "Add to Chat", "command": "pulsar-agent:add-file-to-chat" }
+    ]
+  }
+}

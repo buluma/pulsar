@@ -1,0 +1,372 @@
+@import "ui-variables";
+
+.pulsar-agent-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+  background-color: @pane-item-background-color;
+  color: @text-color;
+
+  .pulsar-agent-chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid @base-border-color;
+    margin-bottom: 10px;
+
+    h2 {
+      margin: 0;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+  }
+
+  .pulsar-agent-chat-history {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding-right: 5px;
+
+    .pulsar-agent-message {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      background-color: @inset-panel-background-color;
+      border: 1px solid @base-border-color;
+
+      &.user {
+        border-left: 3px solid @text-color-info;
+      }
+
+      &.assistant {
+        border-left: 3px solid @text-color-success;
+      }
+
+      &.tool {
+        background-color: @base-background-color;
+        border-color: @base-border-color;
+        padding: 0;
+        overflow: hidden;
+
+        .tool-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 12px;
+          background-color: @panel-heading-background-color;
+          cursor: pointer;
+          font-size: 0.9em;
+          user-select: none;
+
+          &:hover {
+            background-color: @button-background-color-hover;
+          }
+
+          .tool-name {
+            font-weight: bold;
+            flex: 1;
+          }
+
+          .icon {
+            opacity: 0.7;
+          }
+        }
+
+        .tool-content {
+          padding: 10px 12px;
+          border-top: 1px solid @base-border-color;
+          font-size: 0.9em;
+          background-color: @inset-panel-background-color;
+        }
+
+        &.collapsed {
+          .tool-content { display: none; }
+          .tool-header { border-bottom: none; }
+        }
+
+        &.thinking {
+          border-left: 3px solid @text-color-warning;
+          
+          .pulsar-agent-thinking-dots {
+            display: flex;
+            gap: 3px;
+            
+            .dot {
+              width: 4px;
+              height: 4px;
+              background-color: @text-color-warning;
+              border-radius: 50%;
+              animation: pulsar-agent-dot-pulse 1.4s infinite ease-in-out both;
+
+              &:nth-child(1) { animation-delay: -0.32s; }
+              &:nth-child(2) { animation-delay: -0.16s; }
+              &:nth-child(3) { animation-delay: 0s; }
+            }
+          }
+        }
+      }
+
+      .response-sequence {
+        position: relative;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding-left: 15px;
+
+        .timeline-item {
+          position: relative;
+          padding-bottom: 15px;
+
+          .timeline-dot {
+            position: absolute;
+            left: -19px;
+            top: 10px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: @text-color-subtle;
+            z-index: 2;
+            border: 2px solid @pane-item-background-color;
+
+            &.dot-thinking { background-color: @text-color-warning; }
+            &.dot-action { background-color: @text-color-info; }
+            &.dot-assistant { background-color: @text-color-success; width: 12px; height: 12px; left: -20px; }
+          }
+
+          .timeline-line {
+            position: absolute;
+            left: -15px;
+            top: 10px;
+            bottom: 0;
+            width: 2px;
+            background-color: @base-border-color;
+            z-index: 1;
+          }
+
+          &.timeline-last {
+            .timeline-line {
+              display: none;
+            }
+          }
+
+          .timeline-content {
+            .pulsar-agent-message {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+
+      strong {
+        display: block;
+        font-size: 0.8em;
+        margin-bottom: 5px;
+        opacity: 0.7;
+      }
+
+      div {
+        margin: 0;
+        font-size: 0.95em;
+        line-height: 1.5;
+
+        p { margin-bottom: 10px; }
+        p:last-child { margin-bottom: 0; }
+
+        pre {
+          background-color: @base-background-color;
+          padding: 8px;
+          border-radius: 0 0 4px 4px;
+          overflow-x: auto;
+          margin: 0;
+          font-family: @font-family;
+        }
+
+        .pulsar-agent-code-block {
+          margin: 15px 0;
+          border: 1px solid @base-border-color;
+          border-radius: 4px;
+          overflow: hidden;
+
+          .pulsar-agent-code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 8px;
+            background-color: @panel-heading-background-color;
+            border-bottom: 1px solid @base-border-color;
+            font-size: 0.8em;
+            
+            .badged-text {
+              opacity: 0.8;
+              font-family: monospace;
+            }
+
+            .pulsar-agent-code-actions {
+              display: flex;
+              gap: 5px;
+
+              .btn {
+                padding: 0px 6px;
+                font-size: 0.85em;
+                line-height: 1.6;
+              }
+            }
+          }
+        }
+
+        code {
+          font-family: inherit;
+          background-color: rgba(0, 0, 0, 0.1);
+          padding: 2px 4px;
+          border-radius: 3px;
+        }
+
+        ul, ol {
+          padding-left: 20px;
+          margin-bottom: 10px;
+        }
+
+        h1, h2, h3, h4 {
+          margin-top: 15px;
+          margin-bottom: 10px;
+          font-weight: bold;
+        }
+      }
+
+  }
+}
+
+  .pulsar-agent-input-form {
+    display: flex;
+    gap: 8px;
+
+    input {
+      flex: 1;
+      height: 32px;
+    }
+
+    button {
+      height: 32px;
+    }
+  }
+
+  .pulsar-agent-chat-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    background-color: @base-background-color;
+    border-top: 1px solid @base-border-color;
+
+    .pulsar-agent-context-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .pulsar-agent-context-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      background-color: @inset-panel-background-color;
+      border: 1px solid @base-border-color;
+      border-radius: 12px;
+      font-size: 0.8em;
+      width: fit-content;
+
+      &.attachment {
+        background-color: rgba(64, 128, 255, 0.1);
+        border-color: @text-color-info;
+      }
+
+      .icon {
+        opacity: 0.7;
+      }
+
+      .chip-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+      }
+
+      .close-chip {
+        cursor: pointer;
+        &:hover { color: @text-color-error; }
+      }
+    }
+  }
+}
+
+/* Inline Dialog */
+.pulsar-agent-inline-dialog {
+  background: @base-background-color;
+  border: 1px solid @base-border-color;
+  border-radius: 6px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  width: 350px;
+  max-width: 90vw;
+  z-index: 100;
+
+  input {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .pulsar-agent-inline-help {
+    font-size: 0.8em;
+    opacity: 0.6;
+    text-align: right;
+  }
+}
+
+/* Diff Visualization */
+.pulsar-agent-diff-modified {
+  background-color: rgba(64, 192, 128, 0.15); /* Soft Success/Green highlight */
+  border-left: 2px solid @text-color-success;
+}
+
+.pulsar-agent-diff-controls {
+  margin-top: 5px;
+  display: flex;
+  gap: 10px;
+  background: @base-background-color;
+  border: 1px solid @base-border-color;
+  border-radius: 4px;
+  padding: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+
+  .btn {
+    padding: 2px 8px;
+    font-size: 0.9em;
+  }
+}
+
+@keyframes pulsar-agent-dot-pulse {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+/* Native Syntax Highlighting Tokens (Ultra-safe fallbacks) */
+.syntax--keyword { color: @syntax-color-keyword; font-weight: bold; }
+.syntax--string { color: @syntax-color-string; }
+.syntax--comment { color: @syntax-color-comment; font-style: italic; }
+.syntax--variable { color: @syntax-color-variable; }
+.syntax--constant { color: @syntax-color-constant; }
+.syntax--class { color: @syntax-color-class; }
+.syntax--type { color: @syntax-color-class; }
+.syntax--punctuation { opacity: 0.7; }
+
+/* Numeric and boolean frequently use @syntax-color-value or fall back to info */
+.syntax--numeric { color: @text-color-info; }
+.syntax--boolean { color: @text-color-info; }
+.syntax--property { color: @text-color; }
+.syntax--operator { color: @text-color; }
+.syntax--method { color: @syntax-color-function; }
+.syntax--parameter { color: @text-color; opacity: 0.9; }
+.syntax--entity { color: @text-color; }
+.syntax--function { color: @syntax-color-function; }
