@@ -10,6 +10,18 @@
 <dt><a href="#SomeClass">SomeClass</a> ⇐ <code>AnotherClass</code></dt>
 <dd><p>Does something very important.</p>
 </dd>
+<dt><a href="#AgentManager">AgentManager</a></dt>
+<dd><p>Manages the AI agent state, context collection, and LLM communication.</p>
+</dd>
+<dt><a href="#ChatView">ChatView</a></dt>
+<dd><p>The sidebar view for AI Chat.</p>
+</dd>
+<dt><a href="#DiffManager">DiffManager</a></dt>
+<dd><p>Manages diff visualization and the Accept/Reject workflow.</p>
+</dd>
+<dt><a href="#InlineDialog">InlineDialog</a></dt>
+<dd><p>A floating dialog for inline AI assistance.</p>
+</dd>
 <dt><a href="#Container">Container</a></dt>
 <dd><p>A container capture. When another capture&#39;s node is contained by the
 definition capture&#39;s node, it gets added to this instance.</p>
@@ -411,6 +423,327 @@ Does something very important.
 
 **Kind**: global class  
 **Extends**: <code>AnotherClass</code>  
+<a name="AgentManager"></a>
+
+## AgentManager
+Manages the AI agent state, context collection, and LLM communication.
+
+**Kind**: global class  
+
+* [AgentManager](#AgentManager)
+    * [.onDidUpdateHistory()](#AgentManager+onDidUpdateHistory)
+    * [.onDidUpdateProcessing()](#AgentManager+onDidUpdateProcessing)
+    * [.onDidUpdateContext()](#AgentManager+onDidUpdateContext)
+    * [.getHistory()](#AgentManager+getHistory)
+    * [.getFileContext()](#AgentManager+getFileContext)
+    * [.addFileToContext()](#AgentManager+addFileToContext)
+    * [.removeFileFromContext()](#AgentManager+removeFileFromContext)
+    * [.clearChat()](#AgentManager+clearChat)
+    * [.addActivityItem()](#AgentManager+addActivityItem)
+    * [.collectContext()](#AgentManager+collectContext)
+    * [.sendMessage(text)](#AgentManager+sendMessage)
+    * [.getSlashCommandInstructions()](#AgentManager+getSlashCommandInstructions)
+    * [.callLLM()](#AgentManager+callLLM)
+    * [.formatMessages()](#AgentManager+formatMessages)
+    * [.callOllama()](#AgentManager+callOllama)
+    * [.callOpenAI()](#AgentManager+callOpenAI)
+    * [.callAnthropic()](#AgentManager+callAnthropic)
+    * [.processInlineAssist()](#AgentManager+processInlineAssist)
+    * [.saveHistory()](#AgentManager+saveHistory)
+    * [.loadProjectHistory()](#AgentManager+loadProjectHistory)
+
+<a name="AgentManager+onDidUpdateHistory"></a>
+
+### agentManager.onDidUpdateHistory()
+Registers a listener for history changes.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+onDidUpdateProcessing"></a>
+
+### agentManager.onDidUpdateProcessing()
+Registers a listener for processing state changes.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+onDidUpdateContext"></a>
+
+### agentManager.onDidUpdateContext()
+Registers a listener for file context changes.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+getHistory"></a>
+
+### agentManager.getHistory()
+Returns the current chat history.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+getFileContext"></a>
+
+### agentManager.getFileContext()
+Returns the current file context.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+addFileToContext"></a>
+
+### agentManager.addFileToContext()
+Adds a file to the context for the NEXT message.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+removeFileFromContext"></a>
+
+### agentManager.removeFileFromContext()
+Removes a file from context.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+clearChat"></a>
+
+### agentManager.clearChat()
+Clears history and context.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+addActivityItem"></a>
+
+### agentManager.addActivityItem()
+Adds an activity item (thinking/action) to the current response sequence.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+collectContext"></a>
+
+### agentManager.collectContext()
+Collects context from the current editor.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+sendMessage"></a>
+
+### agentManager.sendMessage(text)
+Sends a message to the AI.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| text | <code>string</code> | User message text. |
+
+<a name="AgentManager+getSlashCommandInstructions"></a>
+
+### agentManager.getSlashCommandInstructions()
+Returns specialized instructions for slash commands.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+callLLM"></a>
+
+### agentManager.callLLM()
+Calls the selected LLM provider.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+formatMessages"></a>
+
+### agentManager.formatMessages()
+Formats chat history into provider-specific messages, injecting context.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+callOllama"></a>
+
+### agentManager.callOllama()
+Actual Ollama API call.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+callOpenAI"></a>
+
+### agentManager.callOpenAI()
+Actual OpenAI API call.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+callAnthropic"></a>
+
+### agentManager.callAnthropic()
+Actual Anthropic API call.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+processInlineAssist"></a>
+
+### agentManager.processInlineAssist()
+Processes an inline assistance request (Cmd+K).
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+saveHistory"></a>
+
+### agentManager.saveHistory()
+Saves history to the project directory.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="AgentManager+loadProjectHistory"></a>
+
+### agentManager.loadProjectHistory()
+Loads history from the project directory.
+
+**Kind**: instance method of [<code>AgentManager</code>](#AgentManager)  
+<a name="ChatView"></a>
+
+## ChatView
+The sidebar view for AI Chat.
+
+**Kind**: global class  
+
+* [ChatView](#ChatView)
+    * [.getTitle()](#ChatView+getTitle)
+    * [.getURI()](#ChatView+getURI)
+    * [.getDefaultLocation()](#ChatView+getDefaultLocation)
+    * [.handleSendMessage()](#ChatView+handleSendMessage)
+    * [.handleInputChange()](#ChatView+handleInputChange)
+    * [.focus()](#ChatView+focus)
+    * [.groupMessagesByUser()](#ChatView+groupMessagesByUser)
+    * [.render()](#ChatView+render)
+    * [.update()](#ChatView+update)
+    * [.destroy()](#ChatView+destroy)
+
+<a name="ChatView+getTitle"></a>
+
+### chatView.getTitle()
+Required by Pulsar for tab title.
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="ChatView+getURI"></a>
+
+### chatView.getURI()
+Required by Pulsar for identification.
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="ChatView+getDefaultLocation"></a>
+
+### chatView.getDefaultLocation()
+Specifies where the view should open by default.
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="ChatView+handleSendMessage"></a>
+
+### chatView.handleSendMessage()
+Handles user input submission.
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="ChatView+handleInputChange"></a>
+
+### chatView.handleInputChange()
+Handles text input changes.
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="ChatView+focus"></a>
+
+### chatView.focus()
+Required by Pulsar to focus the view.
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="ChatView+groupMessagesByUser"></a>
+
+### chatView.groupMessagesByUser()
+Groups messages by user messages (user messages split the timeline sequences).
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="ChatView+render"></a>
+
+### chatView.render()
+Renders the component.
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="ChatView+update"></a>
+
+### chatView.update()
+Updates the component.
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="ChatView+destroy"></a>
+
+### chatView.destroy()
+Destroys the component.
+
+**Kind**: instance method of [<code>ChatView</code>](#ChatView)  
+<a name="DiffManager"></a>
+
+## DiffManager
+Manages diff visualization and the Accept/Reject workflow.
+
+**Kind**: global class  
+
+* [DiffManager](#DiffManager)
+    * [.show()](#DiffManager+show)
+    * [.handleAccept()](#DiffManager+handleAccept)
+    * [.handleReject()](#DiffManager+handleReject)
+    * [.render()](#DiffManager+render)
+    * [.destroy()](#DiffManager+destroy)
+
+<a name="DiffManager+show"></a>
+
+### diffManager.show()
+Shows the diff by replacing text and adding decorations.
+
+**Kind**: instance method of [<code>DiffManager</code>](#DiffManager)  
+<a name="DiffManager+handleAccept"></a>
+
+### diffManager.handleAccept()
+Accepts the changes and cleans up.
+
+**Kind**: instance method of [<code>DiffManager</code>](#DiffManager)  
+<a name="DiffManager+handleReject"></a>
+
+### diffManager.handleReject()
+Rejects the changes and restores the original code.
+
+**Kind**: instance method of [<code>DiffManager</code>](#DiffManager)  
+<a name="DiffManager+render"></a>
+
+### diffManager.render()
+Renders the Accept/Reject controls.
+
+**Kind**: instance method of [<code>DiffManager</code>](#DiffManager)  
+<a name="DiffManager+destroy"></a>
+
+### diffManager.destroy()
+Destroys markers and overlay.
+
+**Kind**: instance method of [<code>DiffManager</code>](#DiffManager)  
+<a name="InlineDialog"></a>
+
+## InlineDialog
+A floating dialog for inline AI assistance.
+
+**Kind**: global class  
+
+* [InlineDialog](#InlineDialog)
+    * [.handleSubmit()](#InlineDialog+handleSubmit)
+    * [.handleCancel()](#InlineDialog+handleCancel)
+    * [.handleInputChange()](#InlineDialog+handleInputChange)
+    * [.render()](#InlineDialog+render)
+    * [.destroy()](#InlineDialog+destroy)
+
+<a name="InlineDialog+handleSubmit"></a>
+
+### inlineDialog.handleSubmit()
+Handles submission of the inline prompt.
+
+**Kind**: instance method of [<code>InlineDialog</code>](#InlineDialog)  
+<a name="InlineDialog+handleCancel"></a>
+
+### inlineDialog.handleCancel()
+Handles cancellation (Esc key).
+
+**Kind**: instance method of [<code>InlineDialog</code>](#InlineDialog)  
+<a name="InlineDialog+handleInputChange"></a>
+
+### inlineDialog.handleInputChange()
+Updates user input.
+
+**Kind**: instance method of [<code>InlineDialog</code>](#InlineDialog)  
+<a name="InlineDialog+render"></a>
+
+### inlineDialog.render()
+Renders the floating dialog.
+
+**Kind**: instance method of [<code>InlineDialog</code>](#InlineDialog)  
+<a name="InlineDialog+destroy"></a>
+
+### inlineDialog.destroy()
+Destroys the dialog and its markers.
+
+**Kind**: instance method of [<code>InlineDialog</code>](#InlineDialog)  
 <a name="Container"></a>
 
 ## Container
